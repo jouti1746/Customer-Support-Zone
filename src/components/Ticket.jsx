@@ -1,8 +1,10 @@
 import React from 'react';
 
-const Ticket = ({ticket}) => {
+const Ticket = ({ticket, handleTicket}) => {
+        
+    
     return (
-        <div className='bg-white shadow-xl p-4 w-[390px]'>
+        <div onClick={()=>handleTicket(ticket)} className='bg-white shadow-xl p-4 w-[390px]'>
             <div className='flex justify-between'>
                 <h2 className='text-sm font-bold'>{ticket.title}</h2>
                 <button className='text-xs'>{ticket.status}</button>
