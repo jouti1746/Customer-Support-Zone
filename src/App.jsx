@@ -1,10 +1,17 @@
 
+import { Suspense } from 'react'
 import './App.css'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
-import States from './components/States'
+import TicketContainer from './components/TicketContainer'
+
+const loadTickets = fetch("/tickets.json")
+.then(res => res.json())
 
 function App() {
+  
+  const ticketPromise = loadTickets
+  
   
 
   return (
@@ -13,8 +20,10 @@ function App() {
       <Navbar></Navbar>
     </header>
 
-    <section>
-      <States></States>
+    <section className='bg-gray-100'>
+     <Suspense fallback={"loading...."}>
+       <TicketContainer ticketPromise={ticketPromise}></TicketContainer>
+     </Suspense>
     </section>
 
     <section className='bg-black'>
