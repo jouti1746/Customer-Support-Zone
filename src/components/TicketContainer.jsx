@@ -7,10 +7,12 @@ const TicketContainer = ({ ticketPromise }) => {
     const tickets = use(ticketPromise)
 
     const [ticketItems, setTicketItems] = useState ([]);
+    const [solvedTicket, setSolvedTicket] = useState ([]);
+
 
     const handleTicket =(ticket)=>{
 
-        console.log(ticket);
+        
 
       const isExist = ticketItems.find((item)=> item.id == ticket.id);
       if(isExist){
@@ -22,16 +24,25 @@ const TicketContainer = ({ ticketPromise }) => {
         const newticketItems = [...ticketItems, ticket];
         setTicketItems(newticketItems);
     }
+
+    const handleSolvedTicket =(ticket)=>{
+
+        const newSolvedTicket =[...solvedTicket, ticket];
+        setSolvedTicket(newSolvedTicket);
+
+        const remaining =ticketItems.filter(item => item.id !==ticket.id)
+        setTicketItems(remaining);
+    }
     return (
         <div>
-           <States ticketTotal={ticketItems.length} ticket={tickets}></States> 
+           <States ticketTotal={ticketItems.length} ticket={tickets} resolvedTotal={solvedTicket.length}></States> 
 
            <section className='w-11/12 mx-auto py-10 grid grid-cols-1 lg:grid-cols-12 gap-5'>
              <div className='lg:col-span-7'>
                 <h2 className='font-medium text-2xl py-3'>Customer Tickets</h2>
                 <div className='space-y-5 grid grid-cols-1 justify-center items-center lg:grid-cols-2'>
                     {
-                       tickets.map(ticket=> <Ticket handleTicket={handleTicket} key={ticket.id} ticket={ticket}></Ticket>) 
+                       tickets.map(ticket=> <Ticket  handleTicket={handleTicket} key={ticket.id} ticket={ticket}></Ticket>) 
                     }
 
                 </div>
@@ -40,12 +51,14 @@ const TicketContainer = ({ ticketPromise }) => {
                 <h2 className='font-medium text-2xl py-3'>Task Status</h2>
                 <div className='shadow p-10 space-y-5 rounded-lg'>
                     {
-                        ticketItems.map(ticket=> <TicketCards key={ticket.id} ticket={ticket}></TicketCards>)
+                        ticketItems.map(ticket=> <TicketCards handleSolvedTicket={handleSolvedTicket} key={ticket.id} ticket={ticket}></TicketCards>)
                     }
 
                 </div>
                 <h2 className='font-medium text-2xl py-3'>Resolved Task</h2>
-                <div className='shadow p-10 rounded-lg'></div>
+                <div className='shadow p-10 rounded-lg space-y-5'>
+                    
+                </div>
              </div>
            </section>
 
