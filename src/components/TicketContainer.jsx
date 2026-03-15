@@ -2,10 +2,12 @@ import React, { use, useState } from 'react';
 import States from './States';
 import Ticket from './Ticket';
 import TicketCards from './TicketCards';
+import ResolvedTicket from './ResolvedTicket';
 
 const TicketContainer = ({ ticketPromise }) => {
     const tickets = use(ticketPromise)
-
+    
+    const [reMoved, setReMoved] = useState (tickets);
     const [ticketItems, setTicketItems] = useState ([]);
     const [solvedTicket, setSolvedTicket] = useState ([]);
 
@@ -32,6 +34,9 @@ const TicketContainer = ({ ticketPromise }) => {
 
         const remaining =ticketItems.filter(item => item.id !==ticket.id)
         setTicketItems(remaining);
+
+        const remainingTickets = tickets.filter(item => item.id !==ticket.id);
+        setReMoved(remainingTickets);
     }
     return (
         <div>
@@ -57,7 +62,9 @@ const TicketContainer = ({ ticketPromise }) => {
                 </div>
                 <h2 className='font-medium text-2xl py-3'>Resolved Task</h2>
                 <div className='shadow p-10 rounded-lg space-y-5'>
-                    
+                    {
+                       solvedTicket.map(ticket => <ResolvedTicket key={ticket.id} ticket={ticket}></ResolvedTicket>) 
+                    }
                 </div>
              </div>
            </section>
